@@ -1,9 +1,14 @@
 import express, { Request, Response } from "express"
+import env from "dotenv"
 import authRoutes from "./routes/authRoutes"
-const app = express();
-const port = 5000;
-app.use(express.json())
+import connectToMongo from "./config/db";
 
+const app = express();
+env.config();
+app.use(express.json())
+connectToMongo();
+
+const port = process.env.port;
 
 app.get("/", (req: Request, res: Response) => {
     res.send(`server running on port ${port}`)
