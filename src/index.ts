@@ -1,12 +1,18 @@
 import express, { Request, Response } from "express"
 import env from "dotenv"
 import authRoutes from "./routes/authRoutes"
-import connectToMongo from "./config/db";
+// import connectToMongo from "./config/db";
+import { connectToMysql } from "./config/sequelize";
+
+
 
 const app = express();
 env.config();
 app.use(express.json())
-connectToMongo();
+connectToMysql();
+
+
+
 
 const port = process.env.port;
 

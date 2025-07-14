@@ -18,7 +18,7 @@ export const registerUser = async (req: Request, res: Response) => {
         }
         const { firstName, lastName, email, password, role } = parseResult.data;
 
-        const isExisting = await User.findOne({ email });
+        const isExisting = await User.findOne({ where: { email } });
 
         if (isExisting) {
             return res.status(400).json({ message: "User already exists,maybe login?" })
@@ -53,7 +53,7 @@ export const loginUser = async (req: Request, res: Response) => {
         }
         const { email, password } = validatedData.data;
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ where: { email } });
         if (!existingUser) {
             return res.status(400).json({ message: "User not found" })
         }
@@ -63,7 +63,7 @@ export const loginUser = async (req: Request, res: Response) => {
         }
         const token = jwt.sign(
 
-            { _id: existingUser._id, email: existingUser.email, role: existingUser.role },
+            { id: existingUser.id, email: existingUser.email, role: existingUser.role },
             secretKey!,
             { expiresIn: "1y" }
         )
